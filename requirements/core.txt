@@ -4,18 +4,16 @@
 #
 #    pip-compile requirements/core.in
 #
-aiofile==3.8.1
-    # via -r requirements/core.in
 aiofiles==23.1.0
-    # via sanic
+    # via
+    #   -r requirements/core.in
+    #   sanic
 boto3==1.26.82
     # via -r requirements/core.in
 botocore==1.29.82
     # via
     #   boto3
     #   s3transfer
-caio==0.9.11
-    # via aiofile
 httptools==0.5.0
     # via sanic
 jmespath==1.0.1
@@ -32,6 +30,8 @@ numpy==1.24.2
     #   scipy
 python-dateutil==2.8.2
     # via botocore
+regex==2022.10.31
+    # via sentence-splitter
 s3transfer==0.6.0
     # via boto3
 sanic==22.12.0
@@ -42,6 +42,8 @@ scikit-learn==1.2.1
     # via -r requirements/core.in
 scipy==1.10.1
     # via scikit-learn
+sentence-splitter==1.4
+    # via -r requirements/core.in
 six==1.16.0
     # via python-dateutil
 threadpoolctl==3.1.0

@@ -1,0 +1,23 @@
+version: '3'
+services:  
+  tallio-service:
+    build: .
+    image: crispy-sentiment-backend:0.0.1
+    container_name: crispy-sentiment-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - APP_NAME=
+      - TENANT=en
+      - ACCESS_KEY=
+      - SECRET_ACCESS_KEY=
+      - S3_ENDPOINT=
+      - BUCKET_NAME=
+      - MODEL_HASH=
+    networks:
+      - crispy-network
+
+networks:
+  crispy-network:
+    name: crispy-network
+    driver: bridge

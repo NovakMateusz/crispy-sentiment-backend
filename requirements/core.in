@@ -1,4 +1,5 @@
 sanic==22.12.0
 boto3==1.26.82
-aiofile==3.8.1
+aiofiles==23.1.0
 scikit-learn==1.2.1
+sentence-splitter==1.4

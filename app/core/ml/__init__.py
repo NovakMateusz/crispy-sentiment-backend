@@ -2,7 +2,7 @@ import pathlib
 import pickle
 import typing
 
-import aiofile
+import aiofiles
 from sklearn.base import BaseEstimator
 
 
@@ -20,7 +20,7 @@ class Predictor:
         self._model: BaseEstimator
 
     async def async_load(self) -> None:
-        async with aiofile.async_open(self._model_path, "rb") as afp:
+        async with aiofiles.open(self._model_path, "rb") as afp:
             pickle_data = pickle.loads(await afp.read())
             self._parse_pickle_data(pickle_data)
 

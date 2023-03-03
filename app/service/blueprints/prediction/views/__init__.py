@@ -16,6 +16,6 @@ async def predict_view(request: sanic.Request) -> sanic.HTTPResponse:
 async def predict_sentence_view(request: sanic.Sanic) -> sanic.HTTPResponse:
     text = request.json['text']
     output = {}
-    for sentence in text.split('.'):
+    for sentence in request.app.ctx.splitter.split(text):
         output[sentence] = request.app.ctx.predictor.predict(sentence)
     return sanic.json(output)
