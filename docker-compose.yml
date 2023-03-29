@@ -7,12 +7,9 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - APP_NAME=
-      - TENANT=en
-      - ACCESS_KEY=
-      - SECRET_ACCESS_KEY=
-      - S3_ENDPOINT=
-      - BUCKET_NAME=
+      - APP_NAME=crispy-sentiment
+      - TENANT=
+      - CONNECTION_STRING=
       - MODEL_HASH=
     networks:
       - crispy-network

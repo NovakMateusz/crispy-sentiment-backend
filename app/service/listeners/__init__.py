@@ -1,4 +1,5 @@
-import boto3
+import aiofiles
+from azure.storage.blob import BlobServiceClient
 import sanic
 from sentence_splitter import SentenceSplitter
 
@@ -7,15 +8,16 @@ from app.core.ml import Predictor
 __all__ = ["download_artifacts", "load_ml_model", "setup_sentence_splitter"]
 
 
-async def download_artifacts(app: sanic.Sanic) -> None:
-    s3_client = boto3.client(
-        "s3",
-        endpoint_url=app.config.S3_ENDPOINT,
-        aws_access_key_id=app.config.ACCESS_KEY,
-        aws_secret_access_key=app.config.SECRET_ACCESS_KEY,
+def download_artifacts(app: sanic.Sanic) -> None:
+    blob_service_client = BlobServiceClient.from_connection_string(app.config.CONNECTION_STRING)
+    blob_client = blob_service_client.get_blob_client(
+        container=app.config.AZURE_CONTAINER_NAME, blob=app.config.MODEL_PATH
     )
+    stream = blob_client.download_blob()
     with open(app.config.MODEL_PATH, "wb") as fp:
-        s3_client.download_fileobj(app.config.BUCKET_NAME, f"{app.config.TENANT}/{app.config.MODEL_HASH}", fp)
+        content = stream.readall()
+        fp.write(content)
+    app.config.CONNECTION_STRING = None
 
 
 async def load_ml_model(app: sanic.Sanic) -> None:

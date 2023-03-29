@@ -1,5 +1,5 @@
 sanic==22.12.0
-boto3==1.26.82
+azure-storage-blob==12.15.0
 aiofiles==23.1.0
 scikit-learn==1.2.1
 sentence-splitter==1.4
