@@ -1,0 +1,5 @@
+{
+    "Connection string": "BlobEndpoint=https://crispy0storage0account.blob.core.windows.net/;QueueEndpoint=https://crispy0storage0account.queue.core.windows.net/;FileEndpoint=https://crispy0storage0account.file.core.windows.net/;TableEndpoint=https://crispy0storage0account.table.core.windows.net/;SharedAccessSignature=sv=2021-12-02&ss=f&srt=s&sp=r&se=2023-03-27T04:11:00Z&st=2023-03-26T20:11:00Z&spr=https&sig=z1wcNbd2ZHdcCapy5Ac07t%2BsNH7HN1kSXj7OB1CKGQo%3D",
+    "SAS token": "?sv=2021-12-02&ss=f&srt=s&sp=r&se=2023-03-27T04:11:00Z&st=2023-03-26T20:11:00Z&spr=https&sig=z1wcNbd2ZHdcCapy5Ac07t%2BsNH7HN1kSXj7OB1CKGQo%3D",
+    "File service SAS URL": "https://crispy0storage0account.file.core.windows.net/?sv=2021-12-02&ss=f&srt=s&sp=r&se=2023-03-27T04:11:00Z&st=2023-03-26T20:11:00Z&spr=https&sig=z1wcNbd2ZHdcCapy5Ac07t%2BsNH7HN1kSXj7OB1CKGQo%3D"
+    }

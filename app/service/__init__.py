@@ -1,7 +1,17 @@
 import sanic
+from tortoise.contrib.sanic import register_tortoise
 
-from app.service.blueprints import information_blueprint, prediction_blueprint
-from app.service.listeners import download_artifacts, load_ml_model, setup_sentence_splitter
+from app.service.blueprints import (
+    information_blueprint,
+    prediction_blueprint,
+    authentication_blueprint,
+)
+from app.service.listeners import (
+    download_artifacts,
+    load_ml_model,
+    setup_sentence_splitter,
+    setup_token_handler,
+)
 from app.service.middlewares import (
     set_cors_headers_on_response,
     set_x_request_id_on_request,
@@ -13,7 +23,10 @@ __all__ = ["create_app"]
 
 
 def _register_blueprints(app: sanic.Sanic) -> None:
-    api = sanic.Blueprint.group([prediction_blueprint, information_blueprint], version_prefix="/api/v")
+    api = sanic.Blueprint.group(
+        [prediction_blueprint, information_blueprint, authentication_blueprint],
+        version_prefix="/api/v",
+    )
     app.blueprint(api)
 
 
@@ -21,6 +34,7 @@ def _register_listeners(app: sanic.Sanic) -> None:
     app.register_listener(download_artifacts, "before_server_start")
     app.register_listener(load_ml_model, "before_server_start")
     app.register_listener(setup_sentence_splitter, "before_server_start")
+    app.register_listener(setup_token_handler, "before_server_start")
 
 
 def _register_middlewares(app: sanic.Sanic) -> None:
@@ -36,5 +50,11 @@ def create_app() -> sanic.Sanic:
     _register_blueprints(app)
     _register_listeners(app)
     _register_middlewares(app)
+    register_tortoise(
+        app=app,
+        db_url="sqlite://:memory:",
+        modules={"models": ["app.core.db.models"]},
+        generate_schemas=True,
+    )
 
     return app

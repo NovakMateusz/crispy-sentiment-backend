@@ -1,5 +1,9 @@
-sanic==22.12.0
+sanic[ext]==22.12.0
 azure-storage-blob==12.15.0
 aiofiles==23.1.0
 scikit-learn==1.2.1
 sentence-splitter==1.4
+tortoise-orm[asyncpg]==0.19.3
+bcrypt==4.0.1
+pydantic[email]==1.10.7
+pyjwt==2.6.0

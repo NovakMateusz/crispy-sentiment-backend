@@ -1,0 +1,4 @@
+1. Information endpoint +
+2. POST -> GET predictions with auth decorator + / -
+3. Add Last_login logic -
+4. Change routes input models

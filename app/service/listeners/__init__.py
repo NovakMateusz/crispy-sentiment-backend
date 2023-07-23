@@ -1,9 +1,9 @@
-import aiofiles
 from azure.storage.blob import BlobServiceClient
 import sanic
 from sentence_splitter import SentenceSplitter
 
 from app.core.ml import Predictor
+from app.core.security import JWTHandler
 
 __all__ = ["download_artifacts", "load_ml_model", "setup_sentence_splitter"]
 
@@ -28,3 +28,7 @@ async def load_ml_model(app: sanic.Sanic) -> None:
 
 async def setup_sentence_splitter(app: sanic.Sanic) -> None:
     app.ctx.splitter = SentenceSplitter(language=app.config.TENANT)
+
+
+async def setup_token_handler(app: sanic.Sanic) -> None:
+    app.ctx.token_handler = JWTHandler(secret=app.config.TOKEN_SECRET, issuer=app.config.APP_NAME)
