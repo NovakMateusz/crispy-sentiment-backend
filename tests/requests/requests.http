@@ -1,0 +1,31 @@
+POST http://0.0.0.0:8000/predict HTTP/1.1
+content-type: application/json
+
+{
+    "text": "Horrible, horrible, horrible I can't believe how miscast this movie is."
+}
+
+
+###
+
+POST http://0.0.0.0:8000/predict-sentence HTTP/1.1
+content-type: application/json
+
+{
+    "text": "Horribly... Made the mistake of buy this Apple Pencil and didn't know that it wasn't compatible with iPad 9th generation. I'm upset about they I have been waiting all week to get this pencil so I'm going to try to return it."
+}
+
+
+###
+
+GET http://0.0.0.0:8000/information HTTP/1.1
+
+
+###
+POST http://0.0.0.0:8000/login HTTP/1.1
+content-type: application/json
+
+{
+    "email": "EmailStr@gmail.com",
+    "password": "str"
+}
