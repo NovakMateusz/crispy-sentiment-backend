@@ -1,0 +1,116 @@
+@email = set-email
+@password = set-password
+
+POST http://0.0.0.0:8000/v1/predict HTTP/1.1
+content-type: application/json
+
+{
+    "text": "Horrible, horrible, horrible I can't believe how miscast this movie is."
+}
+
+###
+POST http://0.0.0.0:8000/v1/predict HTTP/1.1
+content-type: application/json
+
+{}
+
+###
+POST http://0.0.0.0:8000/v1/predict-sentence HTTP/1.1
+content-type: application/json
+
+{
+    "text": "Horribly... Made the mistake of buy this Apple Pencil and didn't know that it wasn't compatible with iPad 9th generation. I'm upset about they I have been waiting all week to get this pencil so I'm going to try to return it."
+}
+
+###
+POST http://0.0.0.0:8000/v1/predictions HTTP/1.1
+Content-Type: application/json
+
+{
+    "raw-text": "Horribly... Made the mistake of buy this Apple Pencil and didn't know that it wasn't compatible with iPad 9th generation. I'm upset about they I have been waiting all week to get this pencil so I'm going to try to return it.",
+    "predictions": [
+        {
+            "start": 0,
+            "stop": 11,
+            "sentiment": "Nagative"
+        },
+        {
+            "start": 12,
+            "stop": 121,
+            "sentiment": "Nagative"
+        },
+        {
+            "start": 122,
+            "stop": 224,
+            "sentiment": "Positive"
+        }
+    ]
+}
+
+
+###
+POST http://0.0.0.0:8000/v1/register HTTP/1.1
+Corelation-Id: register
+Accept: application/json
+
+{
+    "email": "{{email}}",
+    "password": "{{password}}",
+    "password-repeat": "{{password}}"
+}
+
+###
+# @name login
+POST http://0.0.0.0:8000/v1/login HTTP/1.1
+Corelation-Id: login
+Accept: application/json
+Content-Type: application/json
+
+{
+    "email": "{{email}}",
+    "password": "{{password}}"
+}
+
+
+###
+POST http://0.0.0.0:8000/v1/predictions HTTP/1.1
+Content-Type: application/json
+Authorization: {{login.response.body.token}}
+
+{
+    "raw-text": "2Horribly... Made the mistake of buy this Apple Pencil and didn't know that it wasn't compatible with iPad 9th generation. I'm upset about they I have been waiting all week to get this pencil so I'm going to try to return it.",
+    "annotations": [
+        {
+            "start": 0,
+            "stop": 11,
+            "sentiment": "Negative"
+        },
+        {
+            "start": 12,
+            "stop": 121,
+            "sentiment": "Negative"
+        },
+        {
+            "start": 122,
+            "stop": 224,
+            "sentiment": "Positive"
+        }
+    ]
+}
+
+
+###
+# @name allPredictionsArray
+GET http://0.0.0.0:8000/v1/predictions HTTP/1.1
+Content-Type: application/json
+Authorization: {{login.response.body.token}}
+
+###
+GET http://0.0.0.0:8000/v1/predictions/{{allPredictionsArray.response.body.$[0].id}} HTTP/1.1
+Content-Type: application/json
+Authorization: {{login.response.body.token}}
+
+###
+DELETE http://0.0.0.0:8000/v1/predictions/{{allPredictionsArray.response.body.$[0].id}} HTTP/1.1
+Content-Type: application/json
+Authorization: {{login.response.body.token}}

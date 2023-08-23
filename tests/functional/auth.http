@@ -1,0 +1,30 @@
+@email = set-email
+@password = set-password
+
+###
+POST http://0.0.0.0:8000/v1/register HTTP/1.1
+Corelation-Id: register
+Accept: application/json
+
+{
+    "email": "{{email}}",
+    "password": "{{password}}",
+    "password-repeat": "{{password}}"
+}
+
+###
+# @name login
+POST http://0.0.0.0:8000/v1/login HTTP/1.1
+Corelation-Id: login
+Accept: application/json
+Content-Type: application/json
+
+{
+    "email": "{{email}}",
+    "password": "{{password}}"
+}
+
+###
+POST http://0.0.0.0:8000/v1/logout HTTP/1.1
+Corelation-Id: logout
+Authorization: {{login.response.body.token}}
