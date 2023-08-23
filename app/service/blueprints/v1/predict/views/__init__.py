@@ -26,7 +26,7 @@ async def predict_view(request: Request, input_model: PredictInputModel) -> HTTP
     output_model = PredictResponseModel(
         start=0, stop=len(input_model.text), sentiment=request.app.ctx.predictor.predict(input_model.text)
     )
-    return json(output_model.model_dump())
+    return json([output_model.model_dump()])
 
 
 @blueprint.route("/predict-sentence", methods=["POST", "OPTIONS"])
@@ -81,9 +81,23 @@ async def get_user_predictions_view(_: Request, user: Users) -> HTTPResponse:
     return json(response)
 
 
-@blueprint.route("/predictions/<prediction_id:uuid>")
+@blueprint.route("/predictions/<prediction_id:uuid>", methods=["GET", "OPTIONS", "DELETE"])
 @authorized()
-async def get_user_prediction_by_id_view(_: Request, user: Users, prediction_id: UUID) -> HTTPResponse:
+async def get_user_prediction_by_id_view(request: Request, user: Users, prediction_id: UUID) -> HTTPResponse:
+    if request.method == "DELETE":
+        async with in_transaction() as async_connection:
+            prediction = (
+                await Predictions.filter(id=prediction_id, user_id=user.id)
+                .prefetch_related("prediction_annotations")
+                .first()
+            )
+            if not prediction:
+                return json({})
+
+            await prediction.delete(using_db=async_connection)
+
+        return json({"message": f"Prediction {prediction_id} has been deleted"})
+
     prediction = (
         await Predictions.filter(id=prediction_id, user_id=user.id).prefetch_related("prediction_annotations").first()
     )

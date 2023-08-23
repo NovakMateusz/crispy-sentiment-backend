@@ -14,6 +14,7 @@ class Predictor:
         self._model_path: pathlib.Path = model_path
         self._model_name: str
         self._model_hash: str
+        self._extra_documentation: Dict[str, Any] | None = None
         self._model_metrics: Dict[str, float]
         self._labels: Dict[str, str]
         self._vectorizer: BaseEstimator
@@ -36,8 +37,16 @@ class Predictor:
         self._model = pickle_data["model"]
         self._vectorizer = pickle_data["vectorizer"]
         self._labels = pickle_data["labels"]
+        self._extra_documentation = pickle_data.get("documentation")
 
     def get_info(self) -> Dict[str, Any]:
+        if self._extra_documentation:
+            return {
+                "name": self._model_name,
+                "hash": self._model_hash,
+                "metrics": self._model_metrics,
+                "documentation": self._extra_documentation,
+            }
         return {"name": self._model_name, "hash": self._model_hash, "metrics": self._model_metrics}
 
     def predict(self, text: str) -> str:

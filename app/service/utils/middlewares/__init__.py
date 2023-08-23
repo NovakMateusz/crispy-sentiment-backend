@@ -17,21 +17,21 @@ def _generate_cors_headers(allowed_methods: List[str]) -> Dict[str, str]:
         "Access-Control-Allow-Methods": ",".join(allowed_methods),
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Credentials": "true",
-        "Access-Control-Allow-Headers": "origin, content-type, accept, authorization, corelation-id, x-xsrf-token",
+        "Access-Control-Allow-Headers": "Origin, Content-Type, Accept, Authorization, Corelation-Id",
     }
 
 
 async def set_cors_headers_on_response(request: sanic.Request, response: sanic.HTTPResponse) -> None:
     if request.route:
         allowed_http_methods = [method for method in request.route.methods]
-        response.headers.extend(_generate_cors_headers(allowed_http_methods))
+        response.headers.update(_generate_cors_headers(allowed_http_methods))
 
 
 async def set_cors_headers_on_options_request(request: sanic.Request):
     if request.route and request.method == "OPTIONS":
         allowed_http_methods = [method for method in request.route.methods]
         response = sanic.HTTPResponse()
-        response.headers.extend(_generate_cors_headers(allowed_http_methods))
+        response.headers.update(_generate_cors_headers(allowed_http_methods))
         return response
 
 
